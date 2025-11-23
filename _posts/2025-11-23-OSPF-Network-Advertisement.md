@@ -6,6 +6,7 @@ tags: [OSPF]
 ---
 
 ![MPLS Topology](/assets/img/MPLSLab1/Diagram.jpg)
+[Lab Files](https://github.com/kadeeeem/ENARSI/tree/main/MPLS)
 
 ## Lab: Log Entry #1
 
