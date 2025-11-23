@@ -98,9 +98,9 @@ Neighbor ID     Pri   State           Dead Time   Address         Interface
 
 Because this is a point-to-point(P2P) link between two routers, we are going to configure the OSPF network type as a P2P network. From a design perspective, this makes the network more efficient by removing the DR/BDR election process, resulting in faster formation of the initial neighbor adjacency. The hello packets of the P2P network type also have a different structure compared to the default broadcast network type. With the removal of the DR/BDR election, information pertaining to those entities is no longer relevant and is omitted from the hello packet. This results in an overall decrease in overhead within the OSPF control plane, improving convergence and stability. In a small network like this lab, that minor improvement is almost negligible. But in large scale environments, this optimization has compounding effects.
 
-![OSPF PE-R1](assets/lib/MPLSLab1/Statement-BROADCAST.JPG)
-![OSPF P-R2](assets/lib/MPLSLab1/interfaceP2PType.JPG)
-![OSPF DR/BDR](assets/lib/MPLSLab1/showCMDdrBDR.JPG)
+![OSPF PE-R1](/assets/lib/MPLSLab1/Statement-BROADCAST.JPG)
+![OSPF P-R2](/assets/lib/MPLSLab1/interfaceP2PType.JPG)
+![OSPF DR/BDR](/assets/lib/MPLSLab1/showCMDdrBDR.JPG)
 
 
 
