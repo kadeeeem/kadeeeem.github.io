@@ -100,7 +100,7 @@ Because this is a point-to-point(P2P) link between two routers, we are going to 
 
 ![OSPF PE-R1](assets/lib/MPLSLab1/Statement-BROADCAST.JPG)
 ![OSPF P-R2](assets/lib/MPLSLab1/interfaceP2PType.JPG)
-![OSPF DR/BDR](assets/lib\MPLSLab1/showCMDdrBDR.JPG)
+![OSPF DR/BDR](assets/lib/MPLSLab1/showCMDdrBDR.JPG)
 
 
 
