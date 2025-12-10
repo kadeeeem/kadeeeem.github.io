@@ -6,18 +6,19 @@ tags: [mpls, vrf]
 ---
 
 ![MPLS Topology](/assets/img/MPLSLab1/Diagram.jpg)
+<a href="https://github.com/kadeeeem/ENARSI/tree/main/MPLS" target="_blank">Lab Files</a>
 
 ## MPLS Lab: Log Entry #2
 
 In the last post, we went over configuring OSPF(or any IGP) within the MPLS core and why it's important. If you missed it, to summarize:
-- The configuration of the IGP is critical to MPLS because it advertises all networks within the core, providing end-to-end transit between Provider routers. 
-- This gives LDP the ability to provide label bindings for IGP-learned routes, and those labels are used to make forwarding decisions. We will discuss that further in a subsequent post.
+- The configuration of the IGP is critical to MPLS because it **advertises all networks within the core, providing end-to-end transit between Provider routers.**
+- This gives Label Distribution Protocol(LDP) the ability to provide label bindings for IGP-learned routes, and those labels are used to make forwarding decisions. We will discuss that further in a subsequent post.
 
 ### VRFs
 
-Before getting there, we need to create the L3VPN between the Provider Edge and the Customer Edge routers. To segregate traffic between customers, we must associate them to their own VRF(Virtual Routing and Forwarding) instance. 
+Before getting there, we need to create the L3VPN between the Provider Edge and the Customer Edge routers. To segregate traffic between customers, we must associate them to their own ***Virtual Routing and Forwarding(VRF)*** instance.
 
-Each VRF creates its own RIB and FIB, both of which are used to generate a unique routing and forwarding instance that is separate from the default global routing table. I will explain the topic of VRFs in more detail in a dedicated post. If you need a more in-depth explanation on routing tables and VRFs, please refer to the links below.
+Each VRF creates its own RIB and FIB, both of which are used to generate a unique routing and forwarding instance that is separate from the default global routing table. I will explain the topic of VRFs in more detail in a dedicated post. For now, if you need a more in-depth explanation on routing tables and VRFs, please refer to the links below.
 - <a href="https://www.cisco.com/c/en/us/td/docs/voice_ip_comm/cucme/vrf/design/guide/vrfDesignGuide.html" target="_blank">VRF Design Guide</a>
 - <a href="https://www.cisco.com/c/en/us/td/docs/iosxr/ncs5xx/routing/25xx/b-routing-cg-25xx-ncs540/overview-of-rib.html" target="_blank">RIB</a>
 
@@ -79,8 +80,6 @@ PE-R5(config-if)#int g0/2
 <br>
 
 ##### *VRF Verification*
-<br>
-
 ```
 PE-R1#sh vrf br 
   Name                             Default RD            Protocols   Interfaces
@@ -114,8 +113,9 @@ Routing Table: CUSTOMER-A
       10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
 C        10.0.10.4/30 is directly connected, GigabitEthernet0/1
 L        10.0.10.5/32 is directly connected, GigabitEthernet0/1
-PE-R5#sh ip route vrf CUSTOMER-B
 
+
+PE-R5#sh ip route vrf CUSTOMER-B
 Routing Table: CUSTOMER-B
       10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
 C        10.0.100.4/30 is directly connected, GigabitEthernet0/2
@@ -125,7 +125,7 @@ L        10.0.100.5/32 is directly connected, GigabitEthernet0/2
 
 ### BGP
 
-In the context of an MPLS L3VPN, BGP is used between the PE and CE routers to advertise customer LAN networks into the VRF. BGP's role in this scenario is primarily to serve as the control-plane protocol that delivers customer routes to the MPLS backbone, where the Label Switching Routers(LSRs) can assign labels and provide end-to-end reachability between sites. Note that the BGP syntax on the PE routers will vary slightly due to the introduction of VRFs. Please see the configuration below for reference.
+In the context of an MPLS L3VPN, BGP is used between the PE and CE routers to advertise customer LAN networks into the VRF. BGP's role in this scenario is primarily to serve as the control-plane protocol that delivers customer routes to the MPLS backbone, where the ***Label Switching Routers(LSRs)*** can assign labels and provide end-to-end reachability between sites. Please see the configuration below for reference.
 
 <br>
 ###### *Customer-Routers*
@@ -177,7 +177,7 @@ router bgp 200
 
 When we attempt to configure BGP peering for the PE routers, we get the following error `% VRF CUSTOMER-A does not have an RD configured.`
 
-***BGP requires VRF instances to have a Route Distinguisher(RD) to differentiate between potential overlapping address spaces.*** Below is an example of the creation of RDs within the VRFs, VRF BGP peering, and the RD value prepended to a learned network prefix.
+***BGP requires VRF instances to have a Route Distinguisher(RD) to differentiate between potential overlapping address spaces.*** Below is an example of the creation of RDs within the VRFs, VRF BGP peering, and the RD value prepended to a learned network prefix. Note that the BGP syntax on the PE routers will vary slightly due to the introduction of VRFs.
 
 <br>
 <br>
@@ -254,11 +254,11 @@ PE-R1#sh vrf br
   CUSTOMER-A                       300:1                 ipv4        Gi0/0
   CUSTOMER-B                       300:2                 ipv4        Gi0/1
 
-PE-R1#sh bgp vpnv4 unicast vrf CUSTOMER-A summ
+PE-R1#sh bgp vpnv4 unicast vrf CUSTOMER-A summary
 Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 10.0.10.1       4          100      15      15        3    0    0 00:10:04        1
 
-PE-R1#sh bgp vpnv4 unicast vrf CUSTOMER-B summ
+PE-R1#sh bgp vpnv4 unicast vrf CUSTOMER-B summary
 Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 10.0.100.1      4          200      14      13        3    0    0 00:08:43        1
 
@@ -300,12 +300,12 @@ PE-R5#sh vrf br
   CUSTOMER-A                       300:1                 ipv4        Gi0/1
   CUSTOMER-B                       300:2                 ipv4        Gi0/2
 
-PE-R5#sh bgp vpnv4 unicast vrf CUSTOMER-A summ
+PE-R5#sh bgp vpnv4 unicast vrf CUSTOMER-A summary
 Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 10.0.10.6       4          100       7       6        3    0    0 00:02:27        1
 
 
-PE-R5#sh bgp vpnv4 unicast vrf CUSTOMER-B summ
+PE-R5#sh bgp vpnv4 unicast vrf CUSTOMER-B summary
 Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 10.0.100.6      4          200       6       5        3    0    0 00:01:31        1
 
