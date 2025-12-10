@@ -2,13 +2,13 @@
 title: "OSPF Network Advertisement"
 date: 2025-11-23 00:00:00 -0500
 categories: [OSPF]
-tags: [OSPF]
+tags: [ospf]
 ---
 
 ![MPLS Topology](/assets/img/MPLSLab1/Diagram.jpg)
 [Lab Files](https://github.com/kadeeeem/ENARSI/tree/main/MPLS)
 
-## Lab: Log Entry #1
+## MPLS Lab: Log Entry #1
 
 The first step I will take to begin configuring the lab is establishing end-to-end reachability between the Provider routers within the MPLS domain using OSPF as the IGP. This is critical to the MPLS infrastructure because it provides the underlay needed for LDP label exchange across the MPLS core.<br>
 <br>
