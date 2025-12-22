@@ -5,7 +5,7 @@ categories: [OSPF]
 tags: [ospf]
 ---
 
-![MPLS Topology](/assets/img/MPLSLab1/Diagram.jpg)
+![MPLS Topology](/assets/img/MPLSLab1/MPLS.jpeg)
 [Lab Files](https://github.com/kadeeeem/ENARSI/tree/main/MPLS)
 
 ## MPLS Lab: Log Entry #1

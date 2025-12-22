@@ -5,7 +5,7 @@ categories: [MPLS, VPN]
 tags: [mpls, vrf]
 ---
 
-![MPLS Topology](/assets/img/MPLSLab1/Diagram.jpg)
+![MPLS Topology](/assets/img/MPLSLab1/MPLS.jpeg)
 <a href="https://github.com/kadeeeem/ENARSI/tree/main/MPLS" target="_blank">Lab Files</a>
 
 ## MPLS Lab: Log Entry #2
